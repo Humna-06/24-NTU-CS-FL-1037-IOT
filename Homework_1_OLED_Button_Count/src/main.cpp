@@ -8,8 +8,33 @@
 
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
+const int BUTTON_PIN = 18;
+
+bool lastDisplayedState = HIGH;
+
+void updateDisplay(bool buttonState) {
+  display.clearDisplay();
+
+  display.setTextColor(SSD1306_WHITE);
+  display.setTextSize(1);
+  display.setCursor(0, 0);
+  display.println(F("ESP32 IoT Homework-1"));
+
+  display.setCursor(0, 28);
+  display.print(F("Button: "));
+  if (buttonState == LOW) {
+    display.println(F("PRESSED"));
+  } else {
+    display.println(F("RELEASED"));
+  }
+
+  display.display();
+}
+
 void setup() {
   Serial.begin(115200);
+
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
 
   if (!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) {
     Serial.println(F("SSD1306 allocation failed"));
@@ -17,13 +42,14 @@ void setup() {
     }
   }
 
-  display.clearDisplay();
-  display.setTextColor(SSD1306_WHITE);
-  display.setTextSize(1);
-  display.setCursor(0, 0);
-  display.println(F("ESP32 IoT Homework-1"));
-  display.display();
+  updateDisplay(digitalRead(BUTTON_PIN));
 }
 
 void loop() {
+  bool reading = digitalRead(BUTTON_PIN);
+
+  if (reading != lastDisplayedState) {
+    lastDisplayedState = reading;
+    updateDisplay(reading);
+  }
 }
