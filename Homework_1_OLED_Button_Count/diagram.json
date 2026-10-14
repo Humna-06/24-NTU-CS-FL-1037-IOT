@@ -1,0 +1,43 @@
+{
+  "version": 1,
+  "author": "Humna Khalid",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-esp32-devkit-c-v4",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "board-ssd1306",
+      "id": "oled",
+      "top": -100,
+      "left": 250,
+      "attrs": {
+        "i2cAddress": "0x3c"
+      }
+    },
+    {
+      "type": "wokwi-pushbutton",
+      "id": "btn",
+      "top": 150,
+      "left": 250,
+      "attrs": {
+        "color": "green",
+        "label": "Button",
+        "xray": "1"
+      }
+    }
+  ],
+  "connections": [
+    ["esp:3V3", "oled:VCC", "red", []],
+    ["esp:GND.1", "oled:GND", "black", []],
+    ["esp:21", "oled:SDA", "green", []],
+    ["esp:22", "oled:SCL", "blue", []],
+    ["esp:18", "btn:1.l", "orange", []],
+    ["esp:GND.2", "btn:2.l", "black", []]
+  ],
+  "dependencies": {}
+}
