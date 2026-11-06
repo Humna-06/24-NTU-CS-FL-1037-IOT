@@ -1,24 +1,27 @@
 #include <Arduino.h>
 
 #define DAC_PIN 25
+#define FADE_DELAY_MS 20
 
-void  setup()
+void setup()
 {
     Serial.begin(115200);
-    Serial.println("ESP32 DAC LED Test");
+    Serial.println("Program 2: gradual DAC fade on GPIO25");
 }
 
 void loop()
 {
-    int  values[] = {0, 64, 128, 192, 255};
-
-    for (int i = 0; i < 5; i++)
+    // fade up: 0 -> 255
+    for (int value = 0; value <= 255; value++)
     {
-        dacWrite(DAC_PIN, values[i]);
+        dacWrite(DAC_PIN, value);
+        delay(FADE_DELAY_MS);
+    }
 
-        Serial.print("DAC Value: ");
-        Serial.println(values[i]);
-
-        delay(2000);
+    // fade down: 255 -> 0
+    for (int value = 255; value >= 0; value--)
+    {
+        dacWrite(DAC_PIN, value);
+        delay(FADE_DELAY_MS);
     }
 }
