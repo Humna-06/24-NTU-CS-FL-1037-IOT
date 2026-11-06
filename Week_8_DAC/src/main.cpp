@@ -2,7 +2,7 @@
 
 #define DAC_PIN 25
 
-void setup()
+void  setup()
 {
     Serial.begin(115200);
     Serial.println("ESP32 DAC LED Test");
@@ -10,7 +10,7 @@ void setup()
 
 void loop()
 {
-    int values[] = {0, 64, 128, 192, 255};
+    int  values[] = {0, 64, 128, 192, 255};
 
     for (int i = 0; i < 5; i++)
     {
